@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+google-genai
+opencv-python
+pyaudio
+pillow
+mss
+websockets
+python-dotenv
+sarvamai

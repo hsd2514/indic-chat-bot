@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+
+}
+
+@plugin "daisyui/theme" {
+  name: "hammerhero";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0 0);
+  --color-base-200: oklch(97% 0 0);
+  --color-base-300: oklch(92% 0 0);
+  --color-base-content: oklch(20% 0 0);
+  --color-primary: oklch(84% 0.238 128.85);
+  --color-primary-content: oklch(27% 0.072 132.109);
+  --color-secondary: oklch(79% 0.209 151.711);
+  --color-secondary-content: oklch(26% 0.065 152.934);
+  --color-accent: oklch(0% 0 0);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(26% 0 0);
+  --color-neutral-content: oklch(98% 0 0);
+  --color-info: oklch(70% 0.165 254.624);
+  --color-info-content: oklch(28% 0.091 267.935);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(26% 0.051 172.552);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(28% 0.066 53.813);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+  --radius-selector: 2rem;
+  --radius-field: 1rem;
+  --radius-box: 0rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+
+/* Only keep audio message alignment for chat direction */
+.chat-start .audio-message {
+  margin-right: auto;
+  margin-left: 0;
+}
+.chat-end .audio-message {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Add a little vertical space between chat bubbles */
+.chat {
+  margin-bottom: 0.5rem;
+}
+
+
+@plugin "daisyui/theme" {
+  name: "ironicflower";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0.003 247.858);
+  --color-base-200: oklch(96% 0.007 247.896);
+  --color-base-300: oklch(92% 0.013 255.508);
+  --color-base-content: oklch(20% 0.042 265.755);
+  --color-primary: oklch(87% 0.15 154.449);
+  --color-primary-content: oklch(26% 0.065 152.934);
+  --color-secondary: oklch(82% 0.12 346.018);
+  --color-secondary-content: oklch(28% 0.109 3.907);
+  --color-accent: oklch(86% 0.022 252.894);
+  --color-accent-content: oklch(12% 0.042 264.695);
+  --color-neutral: oklch(37% 0.044 257.287);
+  --color-neutral-content: oklch(98% 0.003 247.858);
+  --color-info: oklch(62% 0.214 259.815);
+  --color-info-content: oklch(97% 0.014 254.604);
+  --color-success: oklch(76% 0.233 130.85);
+  --color-success-content: oklch(98% 0.031 120.757);
+  --color-warning: oklch(76% 0.188 70.08);
+  --color-warning-content: oklch(98% 0.022 95.277);
+  --color-error: oklch(63% 0.237 25.331);
+  --color-error-content: oklch(97% 0.013 17.38);
+  --radius-selector: 0rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
