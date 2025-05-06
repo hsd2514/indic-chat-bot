@@ -23,7 +23,7 @@ function stripMarkdown(text) {
     .trim();
 }
 
-function ChatWindow({ messages, messagesEndRef }) {
+function ChatWindow({ messages, messagesEndRef, activePdfFile }) {
   const { t } = useTranslation();
   const [isPlaying, setIsPlaying] = useState(false);
   const [messageAudio, setMessageAudio] = useState({});
@@ -114,6 +114,50 @@ function ChatWindow({ messages, messagesEndRef }) {
                 className={`chat-bubble ${msg.sender === "user" ? "chat-bubble-primary" : "chat-bubble-secondary"} text-base`}
                 dangerouslySetInnerHTML={{ __html: marked.parse(msg.text || "") }}
               />
+              {/* Show PDF file indicator if present */}
+              {msg.pdfFile && (
+                <div className="mt-2 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span className="text-xs opacity-70">
+                    {msg.pdfFile.name} 
+                    {msg.usingGoogleAI && (
+                      <span className="badge badge-xs badge-success ml-2">{t("Google AI")}</span>
+                    )}
+                  </span>
+                </div>
+              )}
+              
+              {/* Show search query indicator if present */}
+              {msg.searchQuery && msg.sender === "user" && (
+                <div className="mt-2 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-info" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <span className="badge badge-xs badge-info">{t("Web Search")}</span>
+              </div>
+            )}
+              
+              {/* Show PDF query indicator if present */}
+              {msg.pdfQuery && (
+                <div className="mt-2">
+                  <span className="badge badge-sm">{t("PDF Query")}</span>
+                  {msg.usingGoogleAI && (
+                    <span className="badge badge-sm badge-success ml-2">{t("Google AI")}</span>
+                  )}
+                </div>
+              )}
+              {/* Show screenshot image if present */}
+              {msg.image && (
+                <div className="mt-2">
+                  <img
+                    src={msg.image}
+                    alt="Shared screen"
+                    className="max-w-xs max-h-48 rounded border border-base-300"
+                  />
+                </div>
+              )}
               {/* Only show the icon button below the bubble for bot messages */}
               {msg.sender === "bot" && msg.text && !messageAudio[idx] && (
                 <div className="flex mt-2">

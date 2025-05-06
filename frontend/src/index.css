@@ -1,42 +1,83 @@
 @import "tailwindcss";
-@plugin "daisyui" {
+@plugin "daisyui";
 
-}
+/* Use built-in lofi theme from DaisyUI */
 
 @plugin "daisyui/theme" {
-  name: "hammerhero";
+  name: "actuallygrave";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0.001 106.423);
+  --color-base-200: oklch(97% 0.001 106.424);
+  --color-base-300: oklch(92% 0.003 48.717);
+  --color-base-content: oklch(21% 0.006 56.043);
+  --color-primary: oklch(54% 0.245 262.881);
+  --color-primary-content: oklch(97% 0.014 254.604);
+  --color-secondary: oklch(55% 0.288 302.321);
+  --color-secondary-content: oklch(97% 0.014 308.299);
+  --color-accent: oklch(59% 0.249 0.584);
+  --color-accent-content: oklch(97% 0.014 343.198);
+  --color-neutral: oklch(44% 0.011 73.639);
+  --color-neutral-content: oklch(98% 0.001 106.423);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(26% 0.051 172.552);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(27% 0.077 45.635);
+  --color-error: oklch(71% 0.202 349.761);
+  --color-error-content: oklch(28% 0.109 3.907);
+  --radius-selector: 0rem;
+  --radius-field: 1rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 1;
+}
+
+
+
+
+@plugin "daisyui/theme" {
+  name: "actuallygrave2";
   default: false;
   prefersdark: false;
   color-scheme: "light";
-  --color-base-100: oklch(98% 0 0);
-  --color-base-200: oklch(97% 0 0);
-  --color-base-300: oklch(92% 0 0);
-  --color-base-content: oklch(20% 0 0);
-  --color-primary: oklch(84% 0.238 128.85);
-  --color-primary-content: oklch(27% 0.072 132.109);
-  --color-secondary: oklch(79% 0.209 151.711);
-  --color-secondary-content: oklch(26% 0.065 152.934);
-  --color-accent: oklch(0% 0 0);
-  --color-accent-content: oklch(100% 0 0);
-  --color-neutral: oklch(26% 0 0);
-  --color-neutral-content: oklch(98% 0 0);
-  --color-info: oklch(70% 0.165 254.624);
-  --color-info-content: oklch(28% 0.091 267.935);
-  --color-success: oklch(76% 0.177 163.223);
-  --color-success-content: oklch(26% 0.051 172.552);
-  --color-warning: oklch(85% 0.199 91.936);
-  --color-warning-content: oklch(28% 0.066 53.813);
-  --color-error: oklch(71% 0.194 13.428);
-  --color-error-content: oklch(27% 0.105 12.094);
-  --radius-selector: 2rem;
-  --radius-field: 1rem;
-  --radius-box: 0rem;
+  --color-base-100: oklch(98% 0.001 106.423);
+  --color-base-200: oklch(97% 0.001 106.424);
+  --color-base-300: oklch(92% 0.003 48.717);
+  --color-base-content: oklch(21% 0.006 56.043);
+  --color-primary: oklch(86% 0.127 207.078);
+  --color-primary-content: oklch(97% 0.014 308.299);
+  --color-secondary: oklch(68% 0.169 237.323);
+  --color-secondary-content: oklch(97% 0.013 236.62);
+  --color-accent: oklch(66% 0.295 322.15);
+  --color-accent-content: oklch(97% 0.017 320.058);
+  --color-neutral: oklch(26% 0.007 34.298);
+  --color-neutral-content: oklch(98% 0.001 106.423);
+  --color-info: oklch(58% 0.158 241.966);
+  --color-info-content: oklch(97% 0.013 236.62);
+  --color-success: oklch(59% 0.145 163.225);
+  --color-success-content: oklch(97% 0.021 166.113);
+  --color-warning: oklch(68% 0.162 75.834);
+  --color-warning-content: oklch(98% 0.026 102.212);
+  --color-error: oklch(57% 0.245 27.325);
+  --color-error-content: oklch(97% 0.013 17.38);
+  --radius-selector: 0rem;
+  --radius-field: 0.5rem;
+  --radius-box: 2rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
-  --border: 1px;
-  --depth: 0;
+  --border: 1.5px;
+
+  --depth: 1;
   --noise: 0;
 }
+
+
 
 
 /* Only keep audio message alignment for chat direction */
@@ -44,6 +85,7 @@
   margin-right: auto;
   margin-left: 0;
 }
+
 .chat-end .audio-message {
   margin-left: auto;
   margin-right: 0;
@@ -54,38 +96,87 @@
   margin-bottom: 0.5rem;
 }
 
+/* Simple, clean scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
 
-@plugin "daisyui/theme" {
-  name: "ironicflower";
-  default: false;
-  prefersdark: false;
-  color-scheme: "light";
-  --color-base-100: oklch(98% 0.003 247.858);
-  --color-base-200: oklch(96% 0.007 247.896);
-  --color-base-300: oklch(92% 0.013 255.508);
-  --color-base-content: oklch(20% 0.042 265.755);
-  --color-primary: oklch(87% 0.15 154.449);
-  --color-primary-content: oklch(26% 0.065 152.934);
-  --color-secondary: oklch(82% 0.12 346.018);
-  --color-secondary-content: oklch(28% 0.109 3.907);
-  --color-accent: oklch(86% 0.022 252.894);
-  --color-accent-content: oklch(12% 0.042 264.695);
-  --color-neutral: oklch(37% 0.044 257.287);
-  --color-neutral-content: oklch(98% 0.003 247.858);
-  --color-info: oklch(62% 0.214 259.815);
-  --color-info-content: oklch(97% 0.014 254.604);
-  --color-success: oklch(76% 0.233 130.85);
-  --color-success-content: oklch(98% 0.031 120.757);
-  --color-warning: oklch(76% 0.188 70.08);
-  --color-warning-content: oklch(98% 0.022 95.277);
-  --color-error: oklch(63% 0.237 25.331);
-  --color-error-content: oklch(97% 0.013 17.38);
-  --radius-selector: 0rem;
-  --radius-field: 0.5rem;
-  --radius-box: 1rem;
-  --size-selector: 0.25rem;
-  --size-field: 0.25rem;
-  --border: 1px;
-  --depth: 0;
-  --noise: 0;
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Simplified card styles */
+.card {
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Clean tab styles */
+.tab {
+  transition: all 0.15s ease;
+  font-weight: 500;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: oklch(94% 0.02 240);  /* Soft light blue background */
+  color: oklch(30% 0.05 240);  /* Dark text color */
+  opacity: 0.9;
+  border-radius: 0.25rem;
+}
+
+.tab-active {
+  font-weight: 600;
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: oklch(97% 0.01 240);  /* Lighter background for active tab */
+  opacity: 1;
+}
+
+/* Enhanced select/dropdown styling */
+.select {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: oklch(96% 0.015 240);  /* Light blue-tinted background */
+  color: oklch(25% 0.03 240);  /* Dark text color */
+}
+
+.select:focus {
+  border-color: oklch(60% 0.1 240);  /* Medium blue border when focused */
+  outline: none;
+}
+
+.select option {
+  background-color: oklch(98% 0.01 240);  /* Very light background for options */
+  color: oklch(25% 0.03 240);  /* Dark text color */
+}
+
+/* Minimal chat bubble styling */
+.chat-bubble {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* Simple button styles */
+.btn {
+  transition: all 0.15s ease;
+}
+
+.btn:active:not(.btn-disabled) {
+  transform: scale(0.98);
+}
+
+/* Clean navbar */
+.navbar {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+/* Simple typography */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: 0;
 }
