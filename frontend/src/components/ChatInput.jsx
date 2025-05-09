@@ -7,19 +7,23 @@ function ChatInput({ input, setInput, onSend, t, language, onVoiceStart, onVoice
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const fileInputRef = useRef(null);
-
-  const sendAudioToWhisper = async (audioBlob) => {
+  const sendAudioToWhisper = async (audioBlob) => {    
     setIsVoiceLoading(true);
     if (onVoiceStart) onVoiceStart();
 
     const formData = new FormData();
     formData.append("audio", audioBlob, "audio.webm");
-
-    try {
-      const res = await fetch(`http://localhost:8000/whisper?language=${language}`, {
+    formData.append("language", language);    try {
+      const res = await fetch("http://localhost:8000/whisper", {
         method: "POST",
         body: formData,
       });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error(`Server returned ${res.status}: ${errorText}`);
+        throw new Error(`Failed to process audio: ${res.status}`);
+      }
 
       const data = await res.json();
 
@@ -47,19 +51,29 @@ function ChatInput({ input, setInput, onSend, t, language, onVoiceStart, onVoice
     }
 
     setIsRecording(true);
-    audioChunksRef.current = [];
-
-    try {
+    audioChunksRef.current = [];    try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new window.MediaRecorder(stream);
+      
+      // Try to use a format that's well supported by both browser and backend
+      let options = {};
+      if (MediaRecorder.isTypeSupported('audio/webm')) {
+        options = { mimeType: 'audio/webm' };
+      } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+        options = { mimeType: 'audio/mp4' };
+      }
+      
+      console.log("Using audio format:", options.mimeType || "default");
+      const mediaRecorder = new window.MediaRecorder(stream, options);
       mediaRecorderRef.current = mediaRecorder;
 
       mediaRecorder.ondataavailable = (e) => {
         audioChunksRef.current.push(e.data);
-      };
-
-      mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+      };      mediaRecorder.onstop = async () => {
+        // Use the same MIME type that was used for recording
+        const mimeType = mediaRecorder.mimeType || 'audio/webm';
+        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+        
+        console.log("Recorded audio blob size:", audioBlob.size, "bytes, type:", mimeType);
         await sendAudioToWhisper(audioBlob);
         stream.getTracks().forEach((track) => track.stop());
       };
@@ -113,10 +127,9 @@ function ChatInput({ input, setInput, onSend, t, language, onVoiceStart, onVoice
 
   return (
     <form className="p-4" onSubmit={onSend}>
-      <div className="join w-full relative">
-        <input
+      <div className="join w-full relative">        <input
           type="text"
-          className="input input-bordered join-item w-full"
+          className={`input input-bordered join-item w-full ${searchMode ? 'pr-12' : ''}`}
           placeholder={
             searchMode 
               ? t("Search the web...") 
@@ -156,18 +169,16 @@ function ChatInput({ input, setInput, onSend, t, language, onVoiceStart, onVoice
               )}
             </button>
           </>
-        )}
-
-        {/* Show search icon in search mode */}
+        )}        {/* Show search icon in search mode */}
         {searchMode && (
-          <div className="join-item badge badge-primary badge-sm absolute top-4 right-20">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+          <div className="absolute top-1/2 right-[100px] transform -translate-y-1/2 pointer-events-none">
+            <div className="badge badge-primary badge-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
           </div>
-        )}
-
-        {/* Show file mode indicator when PDF is active */}
+        )}{/* Show file mode indicator when PDF is active */}
         {activePdfFile && (
           <div className="absolute -top-6 right-0 text-xs opacity-70">
             {!fileMode && (
@@ -179,26 +190,24 @@ function ChatInput({ input, setInput, onSend, t, language, onVoiceStart, onVoice
           </div>
         )}
         
-        {/* Voice button - show only in standard mode */}
-        {!fileMode && !searchMode && (
-          <button 
-            type="button"
-            className={`btn join-item ${isRecording ? "btn-error" : "btn-ghost"}`}
-            onClick={handleVoice}
-            disabled={isVoiceLoading || isFileUploading}
-            title={isRecording ? t("Stop recording") : t("Voice input")}
-          >
-            {isRecording ? (
-              <span className="loading loading-spinner loading-sm"></span>
-            ) : isVoiceLoading ? (
-              <span className="loading loading-dots loading-sm"></span>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-              </svg>
-            )}
-          </button>
-        )}
+        {/* Voice button - show in all modes */}
+        <button 
+          type="button"
+          className={`btn join-item ${isRecording ? "btn-error" : "btn-ghost"}`}
+          onClick={handleVoice}
+          disabled={isVoiceLoading || isFileUploading}
+          title={isRecording ? t("Stop recording") : t("Voice input")}
+        >
+          {isRecording ? (
+            <span className="loading loading-spinner loading-sm"></span>
+          ) : isVoiceLoading ? (
+            <span className="loading loading-dots loading-sm"></span>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+          )}
+        </button>
         
         <button 
           type="submit" 
